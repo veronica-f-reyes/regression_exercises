@@ -34,9 +34,16 @@ def wrangle_zillow():
        'taxvaluedollarcnt', 'taxamount','bedroomcnt', 'bathroomcnt'] )
 
     # Rename
-    #df = df.rename(columns = { 'bedroomcnt': 'no_bedrooms',
-        
-    #})   
+    df = df.rename(columns = { 'bedroomcnt':'bedrooms', 
+                              'bathroomcnt':'bathrooms', 
+                              'calculatedfinishedsquarefeet':'sq_footage',
+                              'taxvaluedollarcnt':'tax_value', 
+                              'yearbuilt':'yr_built'
+        })   
+
+# get distributions of numeric data
+    get_hist(df)
+   # get_box(df)
 
 # Return the dataframe to the calling code
     return df
@@ -143,3 +150,68 @@ def plot_scatter(a, b):
     ax1 = df.plot.scatter(x=a,y=b,c='Navy')        
 
     return ax1
+
+# FUNCTION to plot histograms of continuous variables
+# 
+def get_hist(df):
+    ''' Gets histograms of acquired continuous variables'''
+    
+    plt.figure(figsize=(16, 3))
+
+    # List of columns
+    cols = [col for col in df.columns if col not in ['fips', 'year_built']]
+
+    for i, col in enumerate(cols):
+
+        # i starts at 0, but plot nos should start at 1
+        plot_number = i + 1 
+
+        # Create subplot.
+        plt.subplot(1, len(cols), plot_number)
+
+        # Title with column name.
+        plt.title(col)
+
+        # Display histogram for column.
+        df[col].hist(bins=5)
+
+        # Hide gridlines.
+        plt.grid(False)
+
+        # turn off scientific notation
+        plt.ticklabel_format(useOffset=False)
+
+        plt.tight_layout()
+
+    plt.show()    
+
+#FUNCTION to plot boxplots of continuous variables
+def get_box(df):
+    ''' Gets boxplots of acquired continuous variables'''
+    
+    # List of columns
+    cols = ['bedrooms', 'bathrooms', 'area', 'tax_value', 'taxamount']
+
+    plt.figure(figsize=(16, 3))
+
+    for i, col in enumerate(cols):
+
+        # i starts at 0, but plot should start at 1
+        plot_number = i + 1 
+
+        # Create subplot.
+        plt.subplot(1, len(cols), plot_number)
+
+        # Title with column name.
+        plt.title(col)
+
+        # Display boxplot for column.
+        sns.boxplot(data=df[[col]])
+
+        # Hide gridlines.
+        plt.grid(False)
+
+        # sets proper spacing between plots
+        plt.tight_layout()
+
+    plt.show()
