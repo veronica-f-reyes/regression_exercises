@@ -15,6 +15,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import  MinMaxScaler
+
 
 #Custom module: acquire.py
 import acquire
