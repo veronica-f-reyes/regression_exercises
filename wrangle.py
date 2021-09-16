@@ -70,6 +70,7 @@ def remove_outliers(df, k, col_list):
         
         iqr = q3 - q1   # calculate interquartile range
         
+        
         upper_bound = q3 + k * iqr   # get upper bound
         lower_bound = q1 - k * iqr   # get lower bound
 
